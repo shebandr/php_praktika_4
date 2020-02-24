@@ -1,0 +1,82 @@
+.okno_vvoda {
+    width: auto;
+    height: auto;
+
+    position: absolute;
+    left: 20%;
+    top: 15%;
+    border-radius: 10px;
+}
+p {
+    margin: 3%;
+}
+#display_none {
+    display: none;
+}
+
+#loginka {
+    display: none;
+    width: auto;
+    height: auto;
+
+    position: absolute;
+    left: 20%;
+    top: 15%;
+    border-radius: 10px;
+}
+#zapis {
+    size: 100px;
+}
+textarea {
+    margin: 3%;
+ 
+
+    resize: none;
+}
+.okno_vvoda2 {
+    width: 350px;
+    height: auto;
+
+    position: absolute;
+    left: 20%;
+    top: 13%;
+
+}
+
+#inv_inp {
+    display: none;
+}
+#error {
+    height: 30px;
+    background-color: darkgray;
+    border: brown 3px solid;
+    border-radius: 10px;
+    position: absolute;
+    top: 90%;
+    left: 200px;
+    color: black;
+    padding: 10px;
+}
+body {
+
+    color: rgb(43, 3, 3);
+    font-size: 20px;
+}
+input {
+    border: darkgray solid 2px ;
+    padding: 2px;
+}
+#inp_msg {
+border-radius: 10px;
+border: lightgreen solid 3px;
+width: auto;
+height: auto;
+padding: 5px;
+display: block;
+max-width: 40%px;
+}
+#inp_php{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+}
