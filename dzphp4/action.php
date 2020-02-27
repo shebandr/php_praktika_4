@@ -12,14 +12,24 @@
 
 <div id='inp_php'>
 <?php
+// код регистрации и проверки получения логина
 $type_data = $_POST['type_data'];
-   if (!($type_data == '1')){
+
+   if (($type_data == 'reg')){
    
-   
+   echo 'очко';
     $userFIO = $_POST['FIO'];
     $data_dr = $_POST['data_dr'];
     $gorod = $_POST['gorod'];
-  
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+
+if(empty($password)){
+    exit("<div id=\"error\"><p>Вы не ввели пароль</p></div>"); };
+if(strlen($password) > 37){
+    exit("<div id=\"error\"><p>пароль слишком длинный</p></div>"); };
+if(strlen($password) < 8){
+    exit("<div id=\"error\"><p>пароль слишком короткий</p></div>"); };
 
 
 
@@ -32,6 +42,9 @@ if(empty($data_dr)){
 if(empty($gorod)){
       exit("<div id=\"error\"><p>Вы не ввели свой город </p></div>"); };
 
+if(empty($login)){
+      exit("<div id=\"error\"><p>Вы не ввели свой логин </p></div>"); };
+  
 $BDC = mysqli_connect("localhost", "root", "");      
 $BD = "CREATE DATABASE IF NOT EXISTS baza";
 
@@ -43,10 +56,21 @@ $createTable = "CREATE TABLE IF NOT EXISTS baza.users(
         `user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         `userFIO` TEXT NOT NULL,
         `data_dr` DATE NOT NULL,
-        `gorod` TEXT NOT NULL
+        `gorod` TEXT NOT NULL,
+        `login` TEXT NOT NULL,
+        `password` TEXT NOT NULL
 )";
 
+ $login_chek = "SELECT baza.users.login FROM baza.users";
+ $result = mysqli_query($BDC, $login_chek) or die("<div id=\"error\"> что-то со вносом логина в базу </div>"); 
+ if($result) {
 
+ while ($row = mysqli_fetch_row($result)) {
+     if($row[0]==$login)(die("<div id=\"error\">такой логин уже занят</div>"));
+
+ }
+
+ };
 
 if(!mysqli_query($BDC,$createTable)){
     exit("<div id=\"error\">что-то с таблицей, перезагрузите страницу</div>");
@@ -54,8 +78,8 @@ if(!mysqli_query($BDC,$createTable)){
 
       
 $dannie = "INSERT INTO baza.users
-    (userFIO, data_dr, gorod)
-    VALUES('$userFIO', '$data_dr', '$gorod')";
+    (userFIO, data_dr, gorod, login, password)
+    VALUES('$userFIO', '$data_dr', '$gorod','$login','$password')";
     if(!mysqli_query($BDC,$dannie)){
         exit("<div id=\"error\">Ошибка связанная с заполнением данных</div>");
     };
@@ -64,18 +88,44 @@ $dannie = "INSERT INTO baza.users
 
  echo "<div id=\"inp_msg\">поздравляю, вы зарегистрированны</div>";
 }
+// до этого комментария идет код регистрации, дальше идет код логина
+if (($type_data == 'login')){
+$login = $_POST['login'];
+$password = $_POST['password'];
 
-//дальше код вноса сообщения и тегов в базу
+$BDC = mysqli_connect("localhost", "root", "");      
+$BD = "CREATE DATABASE IF NOT EXISTS baza";
 
-if ($type_data == '1'){
+if(!mysqli_query($BDC,$BD)){
+    exit("<div id=\"error\">что-то пошло не по плану, перезагрузите страницу</div>");
+};
+
+$login_chek2 = "SELECT baza.users.login FROM baza.users";
+ $result1 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\"> произошла ошибка во время проверки логина  </div>"); 
+
+ while ($row2 = mysqli_fetch_row($result1)) {
+   
+
+    if($row2[0]==$login)break;
+
+ };
+ 
+     $password_chek ="SELECT baza.users.password FROM baza.users WHERE baza.users.login = $login";
+     $result2 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\"> произошла ошибка во время получения пароля из базы данных </div>"); 
+     $row2 = mysqli_fetch_row($result2);
+     if($row[0]==$password)(print_r("<div id=\"inp_msg\">вход успешно завершен</div>"));
+
+};
+
+//тут кончается код логинки, дальше код вноса сообщения и тегов в базу
+
+
+if ($type_data == 'work'){
     $text_msg = $_POST['text_of_mesage'];
-    $id_user = $_POST['id_user'];
     if(empty($text_msg)){
         exit('<div id=\"error\">нет текста поста</div>');
     };
-    if(empty($id_user)){
-        exit('<div id=\"error\">нет вашего id</div>');
-    };
+
 $BDC = mysqli_connect("localhost", "root", "");      
 $BD = "CREATE DATABASE IF NOT EXISTS baza";
 
@@ -104,7 +154,14 @@ VALUES('$text_msg')";
 if(!mysqli_query($BDC,$dannie3)){
 exit("<div id=\"error\">Ошибка связанная с заполнением данных3</div>");
 };
- for($z =1;$z < (count($_POST))-2;$z++){
+
+$login = 'ыва';
+$id_user = mysqli_query($BDC,"SELECT baza.users.user_id FROM baza.users WHERE baza.users.login = '$login'");
+$id_user2 = mysqli_fetch_array($id_user)[0];
+
+
+
+ for($z =1;$z < (count($_POST))-1;$z++){
     $tag = $_POST["tag$z"];
 
 if($tag != ''){
@@ -137,7 +194,7 @@ $idtag2 = mysqli_fetch_array($idtag)[0];
 
 $msgtagsinsrt = "INSERT INTO baza.tags_and_msg
 (id_user, id_msg, id_tag)
- VALUES($id_user, $idmsg2, $idtag2)";
+ VALUES($id_user2, $idmsg2, $idtag2)";
     if(!mysqli_query($BDC,$msgtagsinsrt)){
         exit("<div id=\"error\">Ошибка связанная с заполнением данных в таблице связи тегов и сообщений</div>");
     };
@@ -160,9 +217,8 @@ echo "<div id=\"inp_msg\">текст сообщения:<p>$text_msg</p></div>";
 <div class='okno_vvoda2'>
 
 
-    <input type='text' value="1" id='display_none' name="type_data">
+    <input type='text' value="work" id='display_none' name="type_data">
     <p><input type='text'  name='text_of_mesage' > текст сообщения</p>
-    <p><input type='text'  name='id_user' > введите ваш id (да, я вынужден пока использовать этот костыль)</p>
     <div id='tags'>
     <p><button type="button" id='buttonz'>добавить тег</button></p> 
        
