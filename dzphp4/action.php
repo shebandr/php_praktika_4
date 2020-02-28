@@ -1,23 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>постинг</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" >
-    <link rel="stylesheet" type="text/css" href="reset.css" >
-</head>
-<body>
-
-<div id='inp_php'>
 <?php
 // код регистрации и проверки получения логина
 $type_data = $_POST['type_data'];
-
+$style_error =" style=\"height: 30px;
+background-color: darkgray;
+border: brown 3px solid;
+border-radius: 10px;
+position: absolute;
+top: 90%;
+left: 200px;
+color: black;
+padding: 10px;
+min-width: 200px;
+min-height: 60px;
+display: block;\"";
+$style_nofitication = " style=\"    border-radius: 10px;
+border: lightgreen solid 3px;
+width: auto;
+height: auto;
+padding: 5px;
+display: block;
+max-width: 40%;\"";
    if (($type_data == 'reg')){
    
-   echo 'очко';
+
     $userFIO = $_POST['FIO'];
     $data_dr = $_POST['data_dr'];
     $gorod = $_POST['gorod'];
@@ -25,31 +30,31 @@ $type_data = $_POST['type_data'];
     $password = $_POST['password'];
 
 if(empty($password)){
-    exit("<div id=\"error\"><p>Вы не ввели пароль</p></div>"); };
+    exit("<div id=\"error\" ".$style_error."><p>Вы не ввели пароль</p></div>"); };
 if(strlen($password) > 37){
-    exit("<div id=\"error\"><p>пароль слишком длинный</p></div>"); };
+    exit("<div id=\"error\" ".$style_error."><p>пароль слишком длинный</p></div>"); };
 if(strlen($password) < 8){
-    exit("<div id=\"error\"><p>пароль слишком короткий</p></div>"); };
+    exit("<div id=\"error\" ".$style_error."><p>пароль слишком короткий</p></div>"); };
 
 
 
-if(empty($userFIO)){
-    exit("<div id=\"error\"><p>Вы не ввели свое имя</p></div>"); };
+if(empty($userFIO)&&(strlen($userFIO)>32)){
+    exit("<div id=\"error\" ".$style_error."><p>Вы не ввели свое имя</p></div>"); };
 
 if(empty($data_dr)){
-      exit("<div id=\"error\"><p>Вы не ввели свою дату рождения </p></div>"); };
+      exit("<div id=\"error\" ".$style_error."><p>Вы не ввели свою дату рождения </p></div>"); };
 
-if(empty($gorod)){
-      exit("<div id=\"error\"><p>Вы не ввели свой город </p></div>"); };
+if(empty($gorod)&&(strlen($gorod)>32)){
+      exit("<div id=\"error\" ".$style_error."><p>Вы не ввели свой город </p></div>"); };
 
-if(empty($login)){
-      exit("<div id=\"error\"><p>Вы не ввели свой логин </p></div>"); };
+if(empty($login)&&(strlen($login)>32)){
+      exit("<div id=\"error\" ".$style_error."><p>Вы не ввели свой логин </p></div>"); };
   
 $BDC = mysqli_connect("localhost", "root", "");      
 $BD = "CREATE DATABASE IF NOT EXISTS baza";
 
 if(!mysqli_query($BDC,$BD)){
-    exit("<div id=\"error\">что-то пошло не по плану, перезагрузите страницу</div>");
+    exit("<div id=\"error\" ".$style_error.">что-то пошло не по плану, перезагрузите страницу</div>");
 };
       
 $createTable = "CREATE TABLE IF NOT EXISTS baza.users(
@@ -62,18 +67,18 @@ $createTable = "CREATE TABLE IF NOT EXISTS baza.users(
 )";
 
  $login_chek = "SELECT baza.users.login FROM baza.users";
- $result = mysqli_query($BDC, $login_chek) or die("<div id=\"error\"> что-то со вносом логина в базу </div>"); 
+ $result = mysqli_query($BDC, $login_chek) or die("<div id=\"error\" ".$style_error."> что-то со вносом логина в базу </div>"); 
  if($result) {
 
  while ($row = mysqli_fetch_row($result)) {
-     if($row[0]==$login)(die("<div id=\"error\">такой логин уже занят</div>"));
+     if($row[0]==$login)(die("<div id=\"error\" ".$style_error.">такой логин уже занят</div>"));
 
  }
 
  };
 
 if(!mysqli_query($BDC,$createTable)){
-    exit("<div id=\"error\">что-то с таблицей, перезагрузите страницу</div>");
+    exit("<div id=\"error\" ".$style_error.">что-то с таблицей, перезагрузите страницу</div>");
 };
 
       
@@ -81,12 +86,20 @@ $dannie = "INSERT INTO baza.users
     (userFIO, data_dr, gorod, login, password)
     VALUES('$userFIO', '$data_dr', '$gorod','$login','$password')";
     if(!mysqli_query($BDC,$dannie)){
-        exit("<div id=\"error\">Ошибка связанная с заполнением данных</div>");
+        exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных</div>");
     };
 
 
 
- echo "<div id=\"inp_msg\">поздравляю, вы зарегистрированны</div>";
+
+
+    setcookie("login", $login, time()+60*60*24*30);
+    setcookie("password", $password, time()+60*60*24*30);
+
+
+
+
+ echo "<div id=\"inp_msg\" ".$style_nofitication.">поздравляю, вы зарегистрированны</div>";
 }
 // до этого комментария идет код регистрации, дальше идет код логина
 if (($type_data == 'login')){
@@ -97,11 +110,11 @@ $BDC = mysqli_connect("localhost", "root", "");
 $BD = "CREATE DATABASE IF NOT EXISTS baza";
 
 if(!mysqli_query($BDC,$BD)){
-    exit("<div id=\"error\">что-то пошло не по плану, перезагрузите страницу</div>");
+    exit("<div id=\"error\" ".$style_error.">что-то пошло не по плану, перезагрузите страницу</div>");
 };
 
 $login_chek2 = "SELECT baza.users.login FROM baza.users";
- $result1 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\"> произошла ошибка во время проверки логина  </div>"); 
+ $result1 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\" ".$style_error."> произошла ошибка во время проверки логина  </div>"); 
 
  while ($row2 = mysqli_fetch_row($result1)) {
    
@@ -111,26 +124,56 @@ $login_chek2 = "SELECT baza.users.login FROM baza.users";
  };
  
      $password_chek ="SELECT baza.users.password FROM baza.users WHERE baza.users.login = $login";
-     $result2 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\"> произошла ошибка во время получения пароля из базы данных </div>"); 
+     $result2 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\" ".$style_error."> произошла ошибка во время получения пароля из базы данных </div>"); 
      $row2 = mysqli_fetch_row($result2);
-     if($row[0]==$password)(print_r("<div id=\"inp_msg\">вход успешно завершен</div>"));
+     setcookie("login", $login, time()+60*60*24*30);
+     setcookie("password", $password, time()+60*60*24*30);
+
+     if($row[0]==$password)(print_r("<div id=\"inp_msg\" ".$style_error.">вход успешно завершен</div>"));
 
 };
 
-//тут кончается код логинки, дальше код вноса сообщения и тегов в базу
+//тут кончается код логинки, дальше идет проверка логина и пароля в куки
+
+
+    $login = $_COOKIE['login'];
+    $password = $_COOKIE['password'];
+    
+    $BDC = mysqli_connect("localhost", "root", "");      
+    $BD = "CREATE DATABASE IF NOT EXISTS baza";
+    
+    if(!mysqli_query($BDC,$BD)){
+        exit("<div id=\"error\" ".$style_error.">что-то пошло не по плану, перезагрузите страницу</div>");
+    };
+    
+    $login_chek2 = "SELECT baza.users.login FROM baza.users";
+     $result1 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\" ".$style_error."> произошла ошибка во время проверки логина в куки  </div>"); 
+    
+     while ($row2 = mysqli_fetch_row($result1)) {
+       
+    
+        if($row2[0]==$login)break;
+    
+     };
+     
+         $password_chek ="SELECT baza.users.password FROM baza.users WHERE baza.users.login = $login";
+         $result2 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\" ".$style_error."> произошла ошибка во время получения пароля из базы данных для сверки с куки </div>"); 
+         $row2 = mysqli_fetch_row($result2);
+
+         if($row[0]==$password)(print_r("<div id=\"inp_msg\" ".$style_nofitication.">проверка окончена</div>"))or(die(("<div id=\"error\" ".$style_error."> пароля из куки не существует  </div>")));
 
 
 if ($type_data == 'work'){
     $text_msg = $_POST['text_of_mesage'];
     if(empty($text_msg)){
-        exit('<div id=\"error\">нет текста поста</div>');
+        exit("<div id=\"error\" ".$style_error.">нет текста поста</div>");
     };
 
 $BDC = mysqli_connect("localhost", "root", "");      
 $BD = "CREATE DATABASE IF NOT EXISTS baza";
 
 if(!mysqli_query($BDC,$BD)){
-    exit("<div id=\"error\">что-то пошло не по плану, перезагрузите страницу</div>");
+    exit("<div id=\"error\" ".$style_error.">что-то пошло не по плану, перезагрузите страницу</div>");
 };
 
 $createTable2 = "CREATE TABLE IF NOT EXISTS baza.tags(
@@ -139,20 +182,20 @@ $createTable2 = "CREATE TABLE IF NOT EXISTS baza.tags(
 )";
 
 if(!mysqli_query($BDC,$createTable2)){
-    exit("<div id=\"error\">что-то с таблицей, перезагрузите страницу</div>");
+    exit("<div id=\"error\" ".$style_error.">что-то с таблицей, перезагрузите страницу</div>");
 };
 $createTable3 = "CREATE TABLE IF NOT EXISTS baza.msg(
     `id_msg` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `text_msg` TEXT NOT NULL
 )";
 if(!mysqli_query($BDC,$createTable3)){
-    exit("<div id=\"error\">что-то с таблицей, перезагрузите страницу</div>");
+    exit("<div id=\"error\" ".$style_error.">что-то с таблицей, перезагрузите страницу</div>");
 };
 $dannie3 = "INSERT INTO baza.msg
 (  text_msg)
 VALUES('$text_msg')";
 if(!mysqli_query($BDC,$dannie3)){
-exit("<div id=\"error\">Ошибка связанная с заполнением данных3</div>");
+exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных3</div>");
 };
 
 $login = 'ыва';
@@ -169,7 +212,7 @@ if($tag != ''){
     (  tags)
     VALUES('$tag')";
     if(!mysqli_query($BDC,$dannie2)){
-    exit("<div id=\"error\">Ошибка связанная с заполнением данных2</div>");
+    exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных2</div>");
 }}
 $createTable4 = "CREATE TABLE IF NOT EXISTS baza.tags_and_msg(
     `id_connect` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -178,7 +221,7 @@ $createTable4 = "CREATE TABLE IF NOT EXISTS baza.tags_and_msg(
     `id_tag` TEXT NOT NULL
 )";
 if(!mysqli_query($BDC,$createTable4)){
-    exit("<div id=\"error\">Ошибка связанная с созданием таблицы 4</div>");
+    exit("<div id=\"error\" ".$style_error.">Ошибка связанная с созданием таблицы 4</div>");
 };
 
 
@@ -196,17 +239,40 @@ $msgtagsinsrt = "INSERT INTO baza.tags_and_msg
 (id_user, id_msg, id_tag)
  VALUES($id_user2, $idmsg2, $idtag2)";
     if(!mysqli_query($BDC,$msgtagsinsrt)){
-        exit("<div id=\"error\">Ошибка связанная с заполнением данных в таблице связи тегов и сообщений</div>");
+        exit("<div id=\"error\" style=\"height: 30px;
+        background-color: darkgray;
+        border: brown 3px solid;
+        border-radius: 10px;
+        position: absolute;
+        top: 90%;
+        left: 200px;
+        color: black;
+        padding: 10px;
+        min-width: 200px;
+        min-height: 60px;
+        display: block;\">Ошибка связанная с заполнением данных в таблице связи тегов и сообщений</div>");
     };
-echo "<div id=\"inp_msg\">тег номер $z<p>$tag</p></div>";
+echo "<div id=\"inp_msg\" ".$style_nofitication.">тег номер $z<p>$tag</p></div>";
 };
-echo "<div id=\"inp_msg\">текст сообщения:<p>$text_msg</p></div>";
+echo "<div id=\"inp_msg\" ".$style_nofitication.">текст сообщения:<p>$text_msg</p></div>";
 };
 
 
 
 ?>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>постинг</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" >
+    <link rel="stylesheet" type="text/css" href="reset.css" >
+</head>
+<body>
+
+
 
 
     

@@ -11,11 +11,11 @@
 <div class='okno_vvoda'>
 <form method="post" action="action.php" enctype = multipart/form-data>
 <input type='text' value="reg" id='display_none' name="type_data">
-<p><input type='text' name='FIO' value=""> введите ваше ФИО</p>
-<p><input type='date' name='data_dr'> введите вашу дату рождения</p>
-<p><input type='text' name='gorod'> введите ваш город проживания</p>
-<p><input type="text" name="login"> введите логин (будет в будущем использоваться для авторизации) </p>
-<p><input type="password" name="password" id="inp_pas1" class="inp_pas"> введите пароль </p>
+<p><input type='text' name='FIO' value="" maxlength="32"> введите ваше имя (именно его будут видеть остальные участники</p>
+<p><input type='date' name='data_dr' maxlength="32"> введите вашу дату рождения</p>
+<p><input type='text' name='gorod' maxlength="32"> введите ваш город проживания</p>
+<p><input type="text" name="login" maxlength="32"> введите логин (будет в будущем использоваться для авторизации) </p>
+<p><input type="password" name="password" id="inp_pas1" class="inp_pas" maxlength="32"> введите пароль (от 8 до 32 включительно)    </p>
 <p><button type="button" id='display_password'>показать/скрыть пароль</button></p>
 
 <p><input type='submit' value='отправить' id='send'></p>
@@ -25,8 +25,8 @@
 <form method="post" action="action.php" enctype = multipart/form-data>
 <div id='loginka' id='loginka'>
     <input type='text' value="login" id='display_none' name="type_data">
-    <p><input type="text">введите логин </p>
-    <p><input type="password" name="password" id="inp_pas2" class="inp_pas"> введите пароль </p>
+    <p><input type="text" maxlength="32">введите логин </p>
+    <p><input type="password" name="password" id="inp_pas2" class="inp_pas" maxlength="32"> введите пароль (от 8 до 32 включительно) </p>
     <p><button type="button" id='display_password1'>показать/скрыть пароль</button></p>
     <p><input type="submit"></p>
     <p><button type="button" id='buttony'>назад к регистрации</button></p>
