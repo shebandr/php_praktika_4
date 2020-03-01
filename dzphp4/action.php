@@ -28,6 +28,7 @@ max-width: 40%;\"";
     $gorod = $_POST['gorod'];
     $login = $_POST['login'];
     $password = $_POST['password'];
+    $mail = $_POST['mail'];
 
 if(empty($password)){
     exit("<div id=\"error\" ".$style_error."><p>Вы не ввели пароль</p></div>"); };
@@ -37,6 +38,8 @@ if(strlen($password) < 8){
     exit("<div id=\"error\" ".$style_error."><p>пароль слишком короткий</p></div>"); };
 
 
+if(empty($mail)&&(strlen($mail)>32)){
+    exit("<div id=\"error\" ".$style_error."><p>Вы не ввели свою почту</p></div>"); };
 
 if(empty($userFIO)&&(strlen($userFIO)>32)){
     exit("<div id=\"error\" ".$style_error."><p>Вы не ввели свое имя</p></div>"); };
@@ -63,7 +66,8 @@ $createTable = "CREATE TABLE IF NOT EXISTS baza.users(
         `data_dr` DATE NOT NULL,
         `gorod` TEXT NOT NULL,
         `login` TEXT NOT NULL,
-        `password` TEXT NOT NULL
+        `password` TEXT NOT NULL,
+        `mail` TEXT NOT NULL
 )";
 
  $login_chek = "SELECT baza.users.login FROM baza.users";
@@ -83,8 +87,8 @@ if(!mysqli_query($BDC,$createTable)){
 
       
 $dannie = "INSERT INTO baza.users
-    (userFIO, data_dr, gorod, login, password)
-    VALUES('$userFIO', '$data_dr', '$gorod','$login','$password')";
+    (userFIO, data_dr, gorod, login, password, mail)
+    VALUES('$userFIO', '$data_dr', '$gorod','$login','$password','$mail')";
     if(!mysqli_query($BDC,$dannie)){
         exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных</div>");
     };
@@ -97,7 +101,8 @@ $dannie = "INSERT INTO baza.users
     setcookie("password", $password, time()+60*60*24*30);
 
 
-
+    mail($mail, 'Вы успешно зарегистрировались', "логин: $login", null,
+    '-fwebmaster@example.com');
 
  echo "<div id=\"inp_msg\" ".$style_nofitication.">поздравляю, вы зарегистрированны</div>";
 }
@@ -198,7 +203,7 @@ if(!mysqli_query($BDC,$dannie3)){
 exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных3</div>");
 };
 
-$login = 'ыва';
+
 $id_user = mysqli_query($BDC,"SELECT baza.users.user_id FROM baza.users WHERE baza.users.login = '$login'");
 $id_user2 = mysqli_fetch_array($id_user)[0];
 

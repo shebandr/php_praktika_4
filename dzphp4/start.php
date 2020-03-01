@@ -14,7 +14,8 @@ $createTable = "CREATE TABLE IF NOT EXISTS baza.users(
     `data_dr` DATE NOT NULL,
     `gorod` TEXT NOT NULL,
     `login` TEXT NOT NULL,
-    `password` TEXT NOT NULL
+    `password` TEXT NOT NULL,
+    `mail` TEXT NOT NULL
 )";
 
 if(!mysqli_query($BDC,$createTable)){
@@ -23,8 +24,8 @@ if(!mysqli_query($BDC,$createTable)){
 
 
 $dannie = "INSERT INTO baza.users
-    (userFIO, data_dr, gorod, login, password)
-    VALUES('noname', '1970-01-01', 'no','1','123456789')";
+    (userFIO, data_dr, gorod, login, password, mail)
+    VALUES('noname', '1970-01-01', 'no','1','123456789','mail')";
     if(!mysqli_query($BDC,$dannie)){
         exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных</div>");
     };
