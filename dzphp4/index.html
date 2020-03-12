@@ -4,39 +4,34 @@
 <title>reg</title>
 <link rel="stylesheet" type="text/css" href="styles.css" >
 <link rel="stylesheet" type="text/css" href="reset.css" >
-</head>
-
-<body>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#a2d9ff" fill-opacity="1" d="M0,0L14.1,32C28.2,64,56,128,85,149.3C112.9,171,141,149,169,165.3C197.6,181,226,235,254,256C282.4,277,311,267,339,266.7C367.1,267,395,277,424,288C451.8,299,480,309,508,288C536.5,267,565,213,593,192C621.2,171,649,181,678,176C705.9,171,734,149,762,138.7C790.6,128,819,128,847,122.7C875.3,117,904,107,932,128C960,149,988,203,1016,234.7C1044.7,267,1073,277,1101,261.3C1129.4,245,1158,203,1186,197.3C1214.1,192,1242,224,1271,218.7C1298.8,213,1327,171,1355,138.7C1383.5,107,1412,85,1426,74.7L1440,64L1440,0L1425.9,0C1411.8,0,1384,0,1355,0C1327.1,0,1299,0,1271,0C1242.4,0,1214,0,1186,0C1157.6,0,1129,0,1101,0C1072.9,0,1045,0,1016,0C988.2,0,960,0,932,0C903.5,0,875,0,847,0C818.8,0,791,0,762,0C734.1,0,706,0,678,0C649.4,0,621,0,593,0C564.7,0,536,0,508,0C480,0,452,0,424,0C395.3,0,367,0,339,0C310.6,0,282,0,254,0C225.9,0,198,0,169,0C141.2,0,113,0,85,0C56.5,0,28,0,14,0L0,0Z"></path></svg>
-<div class='okno_vvoda'>
-<form method="post" action="action.php" enctype = multipart/form-data>
-<input type='text' value="reg" id='display_none' name="type_data">
-<p><input type='text' name='FIO' value="" maxlength="32"> введите ваше имя (именно его будут видеть остальные участники</p>
-<p><input type='date' name='data_dr' maxlength="32"> введите вашу дату рождения</p>
-<p><input type='text' name='gorod' maxlength="32"> введите ваш город проживания</p>
-<p><input type='text' name='mail' maxlength="32"> введите вашу почту</p>
-<p><input type="text" name="login" maxlength="32"> введите логин (будет в будущем использоваться для авторизации) </p>
-<p><input type="password" name="password" id="inp_pas1" class="inp_pas" maxlength="32"> введите пароль (от 8 до 32 включительно)    </p>
-<p><button type="button" id='display_password'>показать/скрыть пароль</button></p>
-
-<p><input type='submit' value='отправить' id='send'></p>
-<p><button type="button" id='buttonx'>уже зарегистрирован</button></p>
-</form>
-</div>
-<form method="post" action="action.php" enctype = multipart/form-data>
-<div id='loginka' id='loginka'>
-    <input type='text' value="login" id='display_none' name="type_data">
-    <p><input type="text" maxlength="32">введите логин </p>
-    <p><input type="password" name="password" id="inp_pas2" class="inp_pas" maxlength="32"> введите пароль (от 8 до 32 включительно) </p>
-    <p><button type="button" id='display_password1'>показать/скрыть пароль</button></p>
-    <p><input type="submit"></p>
-    <p><button type="button" id='buttony'>назад к регистрации</button></p>
-
-
-</div>
-</form>
-
-</body>
+    </head>
+    <body>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#a2d9ff" fill-opacity="1" d="M0,0L14.1,32C28.2,64,56,128,85,149.3C112.9,171,141,149,169,165.3C197.6,181,226,235,254,256C282.4,277,311,267,339,266.7C367.1,267,395,277,424,288C451.8,299,480,309,508,288C536.5,267,565,213,593,192C621.2,171,649,181,678,176C705.9,171,734,149,762,138.7C790.6,128,819,128,847,122.7C875.3,117,904,107,932,128C960,149,988,203,1016,234.7C1044.7,267,1073,277,1101,261.3C1129.4,245,1158,203,1186,197.3C1214.1,192,1242,224,1271,218.7C1298.8,213,1327,171,1355,138.7C1383.5,107,1412,85,1426,74.7L1440,64L1440,0L1425.9,0C1411.8,0,1384,0,1355,0C1327.1,0,1299,0,1271,0C1242.4,0,1214,0,1186,0C1157.6,0,1129,0,1101,0C1072.9,0,1045,0,1016,0C988.2,0,960,0,932,0C903.5,0,875,0,847,0C818.8,0,791,0,762,0C734.1,0,706,0,678,0C649.4,0,621,0,593,0C564.7,0,536,0,508,0C480,0,452,0,424,0C395.3,0,367,0,339,0C310.6,0,282,0,254,0C225.9,0,198,0,169,0C141.2,0,113,0,85,0C56.5,0,28,0,14,0L0,0Z"></path></svg>
+        <div class='okno_vvoda'>
+            <form method="post" action="messages.php" enctype = multipart/form-data>
+                <input type='text' value="reg" id='display_none' name="type_data">
+                <p><input type='text' name='FIO' value="" maxlength="32"> введите ваше имя (именно его будут видеть остальные участники</p>
+                <p><input type='date' name='data_dr' maxlength="32"> введите вашу дату рождения</p>
+                <p><input type='text' name='gorod' maxlength="32"> введите ваш город проживания</p>
+                <p><input type='text' name='mail' maxlength="32"> введите вашу почту</p>
+                <p><input type="text" name="login" maxlength="32"> введите логин (будет в будущем использоваться для авторизации) </p>
+                <p><input type="password" name="password" id="inp_pas1" class="inp_pas" maxlength="32"> введите пароль (от 8 до 32 включительно)</p>
+                <p><button type="button" id='display_password'>показать/скрыть пароль</button></p>
+                <p><input type='submit' value='отправить' id='send'></p>
+                <p><button type="button" id='buttonx'>уже зарегистрирован</button></p>
+            </form>
+        </div>
+        <div id='loginka' id='loginka'>
+            <form method="post" action="messages.php" enctype = multipart/form-data>
+                <input type='text' value="login" id='display_none' name="type_data">
+                <p><input type="text" maxlength="32">введите логин </p>
+                <p><input type="password" name="password" id="inp_pas2" class="inp_pas" maxlength="32"> введите пароль (от 8 до 32 включительно) </p>
+                <p><button type="button" id='display_password1'>показать/скрыть пароль</button></p>
+                <p><input type="submit"></p>
+                <p><button type="button" id='buttony'>назад к регистрации</button></p>
+            </form>
+        </div>
+    </body>
 <script src="scripts_for_login.js">
 
 </script>

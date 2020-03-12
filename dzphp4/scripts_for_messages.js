@@ -7,6 +7,21 @@ var add_tag = function(){
 document.getElementById('buttonz').addEventListener('click', add_tag)
 
 var otpravka = function(){
-    
+$(function(){
+ $('form').submit(function(e){
+ var data = $(this).serialize()
+ $.ajax({
+ url: 'messages.php',
+ type: 'POST',
+ data: data,
+ success: function(res){
+ console.log(res);
+ },
+ error: function(){
+ console.log('Произошла ошибка!');
+ }
+ });
+ });
+});
 }
 
