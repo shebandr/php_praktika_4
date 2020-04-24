@@ -1,7 +1,7 @@
 <?php
 
 $BDC = mysqli_connect("localhost", "root", "");      
-$BD = "CREATE DATABASE IF NOT EXISTS baza";
+$BD = "CREATE DATABASE IF NOT EXISTS baza_shebandr";
 
 if(!mysqli_query($BDC,$BD)){
     exit("<div id=\"error\" ".$style_error.">что-то пошло не по плану, перезагрузите страницу</div>");
@@ -23,7 +23,7 @@ if(!mysqli_query($BDC,$createTable)){
 };
 
 
-$dannie = "INSERT INTO baza.users
+$dannie = "INSERT INTO baza_shebandr.users
     (userFIO, data_dr, gorod, login, password, mail)
     VALUES('noname', '1970-01-01', 'no','1','123456789','mail')";
     if(!mysqli_query($BDC,$dannie)){

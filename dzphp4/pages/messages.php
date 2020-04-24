@@ -13,7 +13,7 @@
         min-width: 200px;
         min-height: 60px;
         display: block;\"";
-    $style_nofitication = " style=\"height: 30px;
+    $style_nofitication = " style=\"height: auto;
         background-color: none;
         border: green 3px solid;
         border-radius: 10px;
@@ -236,9 +236,9 @@
                     min-height: 60px;
                     display: block;\">Ошибка связанная с заполнением данных в таблице связи тегов и сообщений</div>");
                 };
-            echo "<div id=\"inp_msg\" ".$style_nofitication.">тег номер $z<p>$tag</p></div>";
+            $output = $output . "<p>тег номер $z:<p>$tag</p></p>";
         };
-        echo "<div id=\"inp_msg\" ".$style_nofitication.">текст сообщения:<p>$text_msg</p></div>";
+        echo "<div id=\"inp_msg\" ".$style_nofitication.">".$output."текст сообщения:<p>$text_msg</p></div>";
     };
 ?>
 
@@ -267,7 +267,7 @@
                 <div id='tags'>
                     <p><button type="button" id='buttonz'>добавить тег</button></p> 
                     
-                    <p><button type="button" id='buttonr'>отправить пост</button></p>
+                    <p><button type="submit" id='buttonr'>отправить пост</button></p>
                     
                 </div>
             </div>
