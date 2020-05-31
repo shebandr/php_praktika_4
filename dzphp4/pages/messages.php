@@ -113,10 +113,13 @@
         $password_chek ="SELECT baza_shebandr.users.password FROM baza_shebandr.users WHERE baza_shebandr.users.login = $login";
         $result2 = mysqli_query($BDC, $login_chek2) or die("<div id=\"error\" ".$style_error."> произошла ошибка во время получения пароля из базы данных </div>"); 
         $row2 = mysqli_fetch_row($result2);
+
         setcookie("login", $login, time()+60*60*24*30);
         setcookie("password", $password, time()+60*60*24*30);
-        if($row[0]==$password)(print_r("<div id=\"inp_msg\" ".$style_error.">вход успешно завершен</div>"));
 
+        if($row[0]==$password)(print_r("<div id=\"inp_msg\" ".$style_error.">вход успешно завершен</div>"));
+        print_r($_COOKIE);
+        echo $login;
     };
 
 //тут кончается код логинки, дальше идет проверка логина и пароля в куки
@@ -145,7 +148,7 @@
 
     if($row[0]==$password)(print_r("<div id=\"inp_msg\" ".$style_nofitication.">проверка окончена</div>"))or(die(("<div id=\"error\" ".$style_error."> пароля из куки не существует  </div>")));
 
-//тут кончается проверка логина и пароля в куки, дальше идет код создания постов 
+//тут кончается проверка логина и пароля в куки, дальше идет код создания сообщений
 
     if ($type_data == 'work'){
             $text_msg = $_POST['text_of_mesage'];
@@ -153,90 +156,30 @@
                 exit("<div id=\"error\" ".$style_error.">нет текста поста</div>");
         };
 
-        $BDC = mysqli_connect("localhost", "root", "");      
-        $BD = "CREATE DATABASE IF NOT EXISTS baza_shebandr";
-
-        if(!mysqli_query($BDC,$BD)){
-            exit("<div id=\"error\" ".$style_error.">что-то пошло не по плану, перезагрузите страницу</div>");
-        };
-
-        $createTable2 = "CREATE TABLE IF NOT EXISTS baza_shebandr.tags(
-            `id_tag` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `tags` TEXT NOT NULL
-        )";
-
-        if(!mysqli_query($BDC,$createTable2)){
-            exit("<div id=\"error\" ".$style_error.">что-то с таблицей, перезагрузите страницу</div>");
-        };
-        $createTable3 = "CREATE TABLE IF NOT EXISTS baza_shebandr.msg(
-            `id_msg` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            `text_msg` TEXT NOT NULL
-        )";
-        if(!mysqli_query($BDC,$createTable3)){
-            exit("<div id=\"error\" ".$style_error.">что-то с таблицей, перезагрузите страницу</div>");
-        };
-        $dannie3 = "INSERT INTO baza_shebandr.msg
-        (  text_msg)
-        VALUES('$text_msg')";
-        if(!mysqli_query($BDC,$dannie3)){
-            exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных3</div>");
-        };
-
-
         $id_user = mysqli_query($BDC,"SELECT baza_shebandr.users.user_id FROM baza_shebandr.users WHERE baza_shebandr.users.login = '$login'");
         $id_user2 = mysqli_fetch_array($id_user)[0];
 
 
-
-        for($z =1;$z < (count($_POST))-1;$z++){
-                $tag = $_POST["tag$z"];
-
-            if($tag != ''){
-                $dannie2 = "INSERT INTO baza_shebandr.tags
-                (  tags)
-                VALUES('$tag')";
-                if(!mysqli_query($BDC,$dannie2)){
-                    exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных2</div>");
-            }}
-            $createTable4 = "CREATE TABLE IF NOT EXISTS baza_shebandr.tags_and_msg(
-                `id_connect` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                `id_user` TEXT NOT NULL, 
-                `id_msg` TEXT NOT NULL,
-                `id_tag` TEXT NOT NULL
-            )";
-            if(!mysqli_query($BDC,$createTable4)){
-                exit("<div id=\"error\" ".$style_error.">Ошибка связанная с созданием таблицы 4</div>");
-            };
+        $BDC = mysqli_connect("localhost", "root", "");      
+        $BD = "CREATE DATABASE IF NOT EXISTS baza_shebandr";
 
 
-
-            $idmsg = mysqli_query($BDC,"SELECT baza_shebandr.msg.id_msg FROM baza_shebandr.msg WHERE baza_shebandr.msg.text_msg = '$text_msg'");
-            $idmsg2 = mysqli_fetch_array($idmsg)[0];
-
-
-
-            $idtag = mysqli_query($BDC,"SELECT baza_shebandr.tags.id_tag FROM baza_shebandr.tags WHERE baza_shebandr.tags.tags = '$tag'");
-            $idtag2 = mysqli_fetch_array($idtag)[0];
-
-
-            $msgtagsinsrt = "INSERT INTO baza_shebandr.tags_and_msg
-            (id_user, id_msg, id_tag)
-            VALUES($id_user2, $idmsg2, $idtag2)";
-                if(!mysqli_query($BDC,$msgtagsinsrt)){
-                    exit("<div id=\"error\" style=\"height: 30px;
-                    background-color: darkgray;
-                    border: brown 3px solid;
-                    border-radius: 10px;
-                    position: absolute;
-                    top: 90%;
-                    left: 200px;
-                    color: black;
-                    padding: 10px;
-                    min-width: 200px;
-                    min-height: 60px;
-                    display: block;\">Ошибка связанная с заполнением данных в таблице связи тегов и сообщений</div>");
-                };
-            $output = $output . "<p>тег номер $z:<p>$tag</p></p>";
+        $createTable2 = "CREATE TABLE IF NOT EXISTS baza_shebandr.msg(
+            `id_msg` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            `text_msg` TEXT NOT NULL,
+            `date_and_time` TEXT NOT NULL,
+            `user_id` TEXT NOT NULL,
+            `dialog_id` TEXT NOT NULL
+        )";
+        if(!mysqli_query($BDC,$createTable2)){
+            exit("<div id=\"error\" ".$style_error.">что-то с таблицей, перезагрузите страницу</div>");
+        };
+        $date_time = date("d.m.y_H:i:s");
+        $dannie2 = "INSERT INTO baza_shebandr.msg
+        (text_msg, date_and_time, user_id, dialog_id)
+        VALUES('$text_msg', '$date_time', '$id_user2', '1')";
+        if(!mysqli_query($BDC,$dannie2)){
+            exit("<div id=\"error\" ".$style_error.">Ошибка связанная с заполнением данных сообщений</div>");
         };
         echo "<div id=\"inp_msg\" ".$style_nofitication.">".$output."текст сообщения:<p>$text_msg</p></div>";
     };
@@ -250,7 +193,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>постинг</title>
+        <title>сообщения</title>
         <link rel="stylesheet" type="text/css" href="../styles/styles.css" >
         <link rel="stylesheet" type="text/css" href="../styles/reset.css" >
         <script type="text/javascript"src="../scripts/jquery.js"></script>
@@ -261,15 +204,10 @@
 
             <div class='okno_vvoda2'>
 
-
+                <input type='text' value="1" id='display_none' name="id_dialog" class='id_dialog' > 
                 <input type='text' value="work" id='display_none' name="type_data">
-                <p><input type='text'  name='text_of_mesage' > текст сообщения</p>
-                <div id='tags'>
-                    <p><button type="button" id='buttonz'>добавить тег</button></p> 
-                    
+                <p><input type='text'  name='text_of_mesage' class='text_of_mesage' > текст сообщения</p>
                     <p><button type="submit" id='buttonr'>отправить пост</button></p>
-                    
-                </div>
             </div>
         <script src='../scripts/scripts_for_messages.js'></script>
         </form>

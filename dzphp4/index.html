@@ -24,15 +24,19 @@
         <div id='loginka' id='loginka'>
             <form method="post" action="pages/messages.php" enctype = multipart/form-data>
                 <input type='text' value="login" id='display_none' name="type_data">
-                <p><input type="text" maxlength="32">введите логин </p>
+                <p><input type="text" maxlength="32" name="login">введите логин  </p>
                 <p><input type="password" name="password" id="inp_pas2" class="inp_pas" maxlength="32"> введите пароль (от 8 до 32 включительно) </p>
                 <p><button type="button" id='display_password1'>показать/скрыть пароль</button></p>
                 <p><input type="submit"></p>
                 <p><button type="button" id='buttony'>назад к регистрации</button></p>
             </form>
         </div>
+        <a href="/pages/start.php">
+            <p>создание бп и подготовка к работе
+            </p>
+        </a>
     </body>
-<script src="/scripts/scripts_for_loginjs">
+<script src="/scripts/scripts_for_login.js">
 
 </script>
 </html>
